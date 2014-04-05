@@ -58,7 +58,11 @@ class ConnectionManager extends events.EventEmitter
 
   # how many clients to add in current ramp-up batch
   _rampUpClientsToAdd: ->
-    _.min(@_rampUpClientsRemaining(), @_rampupIncrement)
+    debug "figuring out how many clients to add in this batch..."
+    debug "   remaining: #{@_rampUpClientsRemaining()}"
+    debug "   increment: #{@_rampupIncrement}"
+    debug "   min: #{_.min([@_rampUpClientsRemaining(), @_rampupIncrement])}"
+    _.min([@_rampUpClientsRemaining(), @_rampupIncrement])
 
   # how many clients remain to be added to meet ramp-up
   _rampUpClientsRemaining: ->
