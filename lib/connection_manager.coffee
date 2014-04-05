@@ -34,6 +34,11 @@ class ConnectionManager extends events.EventEmitter
     #if request comes in when already ramping up, clear old rampup
     clearInterval(@rampupTimer)
 
+    #set class properties to keep state of rampup (kinda dumb but whatever)
+    @_rampupIncrement = increment
+    @_rampupPeriod = period
+    @_rampupMaxClients = maxclients
+
     #event-handler for adding batches of clients in the ramp-up
     @on 'rampup-tick', =>
       debug 'processing rampup tick'
@@ -52,12 +57,12 @@ class ConnectionManager extends events.EventEmitter
     @rampupTimer = setInterval (=> @emit 'rampup-tick'), period
 
   # how many clients to add in current ramp-up batch
-  _rampUpClientsToAdd: (increment, maxclients) ->
-    _.min(@_rampUpClientsRemaining, increment)
+  _rampUpClientsToAdd: ->
+    _.min(@_rampUpClientsRemaining(), @_rampupIncrement)
 
   # how many clients remain to be added to meet ramp-up
-  _rampUpClientsRemaining: (increment, maxclients) ->
-    maxclients - @numClients()
+  _rampUpClientsRemaining: ->
+    @_rampupMaxClients - @numClients()
 
   # return a random endpoint from the list
   _pickURL: ->

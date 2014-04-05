@@ -25,7 +25,14 @@ describe 'ConnectionManager', ->
 
   describe '#numClients()', ->
     it 'should return the current count of clients'
+
   describe '#rampUpClients()', ->
+    it "should initialize class properties the internal rampup methods count on", ->
+      cm = new ConnectionManager(['http://foo:8001'])
+      cm.rampUpClients(10,20,30)
+      cm._rampupIncrement.should.equal 10
+      cm._rampupPeriod.should.equal 20
+      cm._rampupMaxClients.should.equal 30
     it "should ramp up new clients according to proper schedule", (done) ->
       cm = new ConnectionManager(['http://foo:8001'])
       cm.numClients().should.equal 0
@@ -42,6 +49,35 @@ describe 'ConnectionManager', ->
 
     it "should remove its ticker and event handler when done"
       # check for on 'rampup-complete'
+
+  describe '#_rampUpClientsRemaining', ->
+    it "should properly determine the amount of rampup clients remaining to add", ->
+      cm = new ConnectionManager(['http://foo:8001'])
+      # stub these values to things dont actually ramp up
+      cm._rampupMaxClients = 10
+
+      cm._rampUpClientsRemaining().should.equal 10
+      cm.addClients(1)
+      cm._rampUpClientsRemaining().should.equal 9
+      cm.addClients(9)
+      cm._rampUpClientsRemaining().should.equal 0
+      cm.addClients(5)
+      cm._rampUpClientsRemaining().should.equal 0
+
+  describe '#_rampUpClientsToAdd', ->
+    it "should properly determine the amount of rampup clients to add in a batch", ->
+      cm = new ConnectionManager(['http://foo:8001'])
+
+      # stub these values to things dont actually ramp up
+      cm._rampupIncrement = 5
+      cm._rampupMaxClients = 10
+
+      cm._rampUpClientsToAdd().should.equal 5
+      cm.addClients(9)
+      cm._rampUpClientsToAdd().should.equal 1
+      cm.addClients(5)
+      cm._rampUpClientsToAdd().should.equal 0
+
   describe '#status()', ->
     it 'should return a hash representing client pool status, suitable for reporting'
   describe '#logStatus()', ->
