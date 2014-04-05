@@ -35,6 +35,7 @@ describe 'ConnectionManager', ->
       cm._rampupIncrement.should.equal 10
       cm._rampupPeriod.should.equal 20
       cm._rampupMaxClients.should.equal 30
+
     it "should ramp up new clients according to proper schedule", (done) ->
       cm = new ConnectionManager(['http://foo:8001'])
       cm.numClients().should.equal 0
@@ -44,10 +45,10 @@ describe 'ConnectionManager', ->
       cm.numClients().should.equal 10
 
       # the rest trickle in
-      setTimer -> #check after clients have time to rampup
+      setTimeout -> #check after clients have time to rampup
         cm.numClients().should.equal 100
         done()
-      , 150
+      , 120
 
     it "should remove its ticker and event handler when done"
       # check for on 'rampup-complete'
