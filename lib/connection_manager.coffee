@@ -62,7 +62,9 @@ class ConnectionManager extends events.EventEmitter
 
   # how many clients remain to be added to meet ramp-up
   _rampUpClientsRemaining: ->
-    @_rampupMaxClients - @numClients()
+    diff = @_rampupMaxClients - @numClients()
+    return 0 if diff < 0
+    diff
 
   # return a random endpoint from the list
   _pickURL: ->
