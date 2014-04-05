@@ -35,7 +35,9 @@ class ConnectionManager extends events.EventEmitter
     clearInterval(@rampupTimer)
 
     #event-handler for adding batches of clients in the ramp-up
-    @on 'rampup-tick', ->
+    @on 'rampup-tick', =>
+      debug 'processing rampup tick'
+      debug "I think there are #{@_rampUpClientsRemaining()} rampup clients remaining"
       if @_rampUpClientsRemaining() > 0
         @addClients @_rampUpClientsToAdd()
       else
@@ -47,7 +49,7 @@ class ConnectionManager extends events.EventEmitter
     @emit 'rampup-tick'
 
     #set up an interval timer to add subsequent batches
-    @rampupTimer = setInterval (-> @emit 'rampup-tick'), period
+    @rampupTimer = setInterval (=> @emit 'rampup-tick'), period
 
   # how many clients to add in current ramp-up batch
   _rampUpClientsToAdd: (increment, maxclients) ->
