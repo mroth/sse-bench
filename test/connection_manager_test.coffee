@@ -24,7 +24,9 @@ describe 'ConnectionManager', ->
       #   error.should.be.a Error
 
   describe '#numClients()', ->
-    it 'should return the current count of clients'
+    it 'should return zero when there are no clients', ->
+      cm = new ConnectionManager(['http://foo:8001'])
+      cm.numClients().should.equal 0
 
   describe '#rampUpClients()', ->
     it "should initialize class properties the internal rampup methods count on", ->
