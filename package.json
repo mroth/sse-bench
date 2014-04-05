@@ -1,0 +1,22 @@
+{
+  "name": "sse-bench",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --compilers coffee:coffee-script/register -R spec"
+  },
+  "author": "Matthew Rothenberg <mroth@mroth.info>",
+  "license": "ISC",
+  "dependencies": {
+    "coffee-script": "^1.7.1",
+    "commander": "^2.2.0",
+    "debug": "^0.8.0",
+    "eventsource": "^0.1.0",
+    "lodash": "^2.4.1"
+  },
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "mocha": "^1.18.2"
+  }
+}
