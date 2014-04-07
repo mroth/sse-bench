@@ -17,6 +17,9 @@
   },
   "devDependencies": {
     "chai": "^1.9.1",
-    "mocha": "^1.18.2"
+    "coffee-errors": "^0.8.6",
+    "mocha": "^1.18.2",
+    "sinon": "^1.9.1",
+    "sinon-chai": "^2.5.0"
   }
 }
