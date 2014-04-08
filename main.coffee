@@ -23,11 +23,13 @@ URLs = program.args
 if URLs.length < 1
   program.help()
 
+endpointStr = if URLs.length > 1 then "across #{URLs.length} endpoints." else "against 1 endpoint."
+
 if program.increment >= program.maxclients
-  console.log "Opening #{program.maxclients} connections to #{URLs.length} endpoint."
+  console.log "Opening #{program.maxclients} connections to #{endpointStr}"
   cm = new ConnectionManager(URLs, program.maxclients)
 else
-  console.log "Ramping up #{program.increment} clients every #{program.period}ms (until #{program.maxclients} total) against #{URLs.length} endpoint."
+  console.log "Ramping up #{program.increment} clients every #{program.period}ms (until #{program.maxclients} total) #{endpointStr}"
   cm = new ConnectionManager(URLs)
   cm.rampUpClients(program.increment,program.period,program.maxclients)
 
