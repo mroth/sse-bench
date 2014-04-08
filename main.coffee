@@ -10,14 +10,16 @@ program
   .option('-p, --period [ms]', 'period between ramp-ups, in milliseconds \t[1000]', 1000, parseInt)
   .option('-r, --report [ms]', 'interval to report to STDOUT \t\t\t[1000]', 1000, parseInt)
   .parse(process.argv)
-incrementVal = program.increment || program.maxclients
+
+# set increment value to be maxclients if doesnt exist
+program.increment = program.increment || program.maxclients
 
 debug "increment: " + program.increment
 debug "period: " + program.period
 debug "maxclients: " + program.maxclients
 debug "report: " + program.report
 debug "args: " + program.args
-debug "increment value: " + incrementVal
+debug "increment value: " + program.increment
 
 URLs = program.args
 if URLs.length < 1
@@ -26,7 +28,7 @@ if URLs.length < 1
 endpointStr = if URLs.length > 1 then "across #{URLs.length} endpoints." else "against 1 endpoint."
 
 if program.increment >= program.maxclients
-  console.log "Opening #{program.maxclients} connections to #{endpointStr}"
+  console.log "Opening #{program.maxclients} connections #{endpointStr}"
   cm = new ConnectionManager(URLs, program.maxclients)
 else
   console.log "Ramping up #{program.increment} clients every #{program.period}ms (until #{program.maxclients} total) #{endpointStr}"
