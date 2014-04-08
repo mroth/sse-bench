@@ -139,13 +139,5 @@ class ConnectionManager extends events.EventEmitter
     @_lastReportTime = Date.now()
     @_lastResportReceivedMsgs = @_receivedMsgs
 
-  logStatusReport: ->
-    #BW / sec
-    #msg / sec
-    #BW / client / sec
-    #msg / client / set
-    console.log @status()
-    @_resetStatusValues()
-
 
 module.exports = ConnectionManager

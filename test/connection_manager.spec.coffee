@@ -3,7 +3,6 @@ require 'coffee-errors'
 chai = require('chai')
 should = chai.should()
 
-# ConnectionManager = require '../lib/connection_manager'
 # using compiled JavaScript file here to be sure module works
 ConnectionManager = require '../lib/connection_manager'
 
@@ -87,5 +86,3 @@ describe 'ConnectionManager', ->
 
   describe '#status()', ->
     it 'should return a hash representing client pool status, suitable for reporting'
-  describe '#logStatus()', ->
-    it 'should log the results of status to STDOUT'
