@@ -84,5 +84,15 @@ describe 'ConnectionManager', ->
       cm.addClients(5)
       cm._rampUpClientsToAdd().should.equal 0
 
-  describe '#status()', ->
-    it 'should return a hash representing client pool status, suitable for reporting'
+  describe '#statusReport()', ->
+    beforeEach ->
+      @cm = new ConnectionManager()
+    it 'should return an object representing client pool status, suitable for reporting', ->
+      @cm.statusReport().should.be.a 'object'
+    it 'should reset the period values for the next status report', ->
+      a = @_lastReportTime
+      @cm.statusReport()
+      @cm._lastReportTime.should.not.equal a
+    it 'should emit an event with the report so it can be consumed elsewhere', (done) ->
+      @cm.on 'reported-status', -> done()
+      @cm.statusReport()
