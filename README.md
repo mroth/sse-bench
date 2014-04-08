@@ -1,3 +1,6 @@
+** UNFINISHED WORK IN PROGRESS, NOT ACTUALLY ON NPM JUST YET! **
+
+# sse-bench
 Benchmark Server-Sent Events Endpoints.
 
 Fires up a bunch of clients that will hit a list of one or more endpoints.  
@@ -36,10 +39,11 @@ Open 1000 connections to a single endpoint by adding 10 connections per second, 
     Adding +10 clients (60 total)
 
 ### Debugging
-Uses the standard DEBUG environment variable pattern.  Set `sse-bench:*` if you want to see everything.
+Uses the standard DEBUG environment variable pattern.  Set `sse-bench*` if you want to see everything.
 
-CLI
- it should return a helpful status message showing it understood
- it should die with error code and print usage if there are no servers passed
- it should capture control-c and show stats on exit
- it should exit gracefully and shut down connections
+### CLI TODO
+
+ - [x] it should return a helpful status message showing it understood what you wanted
+ - [x] it should die with error code and print usage if there are no servers passed
+ - [ ] it should capture control-c and show stats on exit
+ - [ ] it should exit gracefully and shut down connections
