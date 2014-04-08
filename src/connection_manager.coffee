@@ -81,10 +81,13 @@ class ConnectionManager extends events.EventEmitter
   _clientCreate: (url) ->
     clientID = ++@_nextClientID
     debug "init new client \##{clientID} who wants to connect to #{url}"
+    initTime = Date.now()
     es = new EventSource(url)
     @_clients.push es
     es.onopen = =>
+      es.connect_latency = Date.now() - initTime
       debug "client \##{clientID} opened new conn to #{url}"
+      debug "time till connected: #{es.connect_latency}ms"
     es.onmessage = =>
       # debug "client \##{clientID} got new msg from #{url}"
       @_receivedMsgs++
@@ -93,6 +96,11 @@ class ConnectionManager extends events.EventEmitter
 
   _clientsWithReadyState: (status) ->
     @_clients.filter( (c)->c.readyState == status )
+
+  _clientsRecentConnectLatency: (n=5) ->
+    # be sure to filter out clients that dont have latency yet
+    cl=@_clients.filter( (c)->c.connect_latency? ).slice(-n)
+    _.pluck(cl,'connect_latency')
 
 
   # formally get the current status report
@@ -121,6 +129,7 @@ class ConnectionManager extends events.EventEmitter
         avg_client_rate: @_reportMsgsPerClientRate()
       clients:
         total: @numClients()
+        connect_latency: @_clientsRecentConnectLatency()
         status:
           connecting: @_clientsWithReadyState( EventSource.CONNECTING ).length
           open: @_clientsWithReadyState( EventSource.OPEN ).length
