@@ -52,7 +52,7 @@ describe 'ConnectionManager', ->
       setTimeout -> #check after clients have time to rampup
         cm.numClients().should.equal 100
         done()
-      , 120
+      , 150
 
     it "should remove its ticker and event handler when done"
       # check for on 'rampup-complete'
