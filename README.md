@@ -1,18 +1,20 @@
 ** UNFINISHED WORK IN PROGRESS, NOT ACTUALLY ON NPM JUST YET! **
 
 # sse-bench
-Benchmark Server-Sent Events Endpoints.
+Benchmarks Server-Sent Events Endpoints.  Normal HTTP benchmarking tools test for the wrong things for this use case.
 
-Fires up a bunch of clients that will hit a list of one or more endpoints.  
-These clients behave like normal `EventSource` browser clients, e.g. they will attempt to reconnect when disconnected.
+This fires up a bunch of clients that will hit a list of one or more endpoints.  
+These clients behave like normal `EventSource` browser clients, e.g. they will attempt to stay connected as long as possible and reconnect when disconnected.
 
-Stats-wise, this mostly looks at msgs received per client per second, since that's where I have seen breakdowns on my servers.  Please add functionality and send pull requests!
+Stats-wise, this mostly looks at msgs received per client per second and latency to open new connections under load, since that's where I have seen breakdowns on my servers.  Please add functionality and send pull requests!
 
-Remember to set ulimit!
+P.S. Remember to set ulimit -n !
 
 ### Installation
 
     npm install -g sse-bench
+
+(Once it's released anyhow!  In the meantime, grab source and `npm link`.)
 
 ### Usage
 
@@ -46,4 +48,4 @@ Uses the standard DEBUG environment variable pattern.  Set `sse-bench*` if you w
  - [x] it should return a helpful status message showing it understood what you wanted
  - [x] it should die with error code and print usage if there are no servers passed
  - [ ] it should capture control-c and show stats on exit
- - [ ] it should exit gracefully and shut down connections
+ - [ ] it should verifiably exit gracefully and shut down connections
